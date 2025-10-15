@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>აზომვითი ნახაზები - გეოდეზია</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: #e8f5e9;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.01) 2px, rgba(0,0,0,0.01) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.01) 2px, rgba(0,0,0,0.01) 4px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3000 2000'%3E%3Cdefs%3E%3Cpattern id='grid' width='50' height='50' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 50 0 L 0 0 0 50' fill='none' stroke='%23c8e6c9' stroke-width='0.5' opacity='0.3'/%3E%3C/pattern%3E%3Cpattern id='smallgrid' width='10' height='10' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 10 0 L 0 0 0 10' fill='none' stroke='%23d7f4d9' stroke-width='0.3' opacity='0.2'/%3E%3C/pattern%3E%3Cpattern id='hatch' width='5' height='5' patternTransform='rotate(45)' patternUnits='userSpaceOnUse'%3E%3Cline x1='0' y1='0' x2='0' y2='5' stroke='%23000' stroke-width='0.6' opacity='0.5'/%3E%3C/pattern%3E%3ClinearGradient id='riverGrad' x1='0%25' y1='0%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%234a9fd8' stop-opacity='0.15'/%3E%3Cstop offset='50%25' stop-color='%2365b5e8' stop-opacity='0.25'/%3E%3Cstop offset='100%25' stop-color='%234a9fd8' stop-opacity='0.15'/%3E%3C/linearGradient%3E%3ClinearGradient id='riverGrad2' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234a9fd8' stop-opacity='0.15'/%3E%3Cstop offset='50%25' stop-color='%2365b5e8' stop-opacity='0.25'/%3E%3Cstop offset='100%25' stop-color='%234a9fd8' stop-opacity='0.15'/%3E%3C/linearGradient%3E%3CradialGradient id='treeGrad' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%2340a060' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%2352b788' stop-opacity='0.25'/%3E%3C/radialGradient%3E%3Cfilter id='shadow'%3E%3CfeDropShadow dx='2' dy='2' stdDeviation='1' flood-opacity='0.15'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='3000' height='2000' fill='%23f1f8f2'/%3E%3Crect width='3000' height='2000' fill='url(%23smallgrid)'/%3E%3Crect width='3000' height='2000' fill='url(%23grid)'/%3E%3Cpath d='M 0 1100 Q 400 1150 800 1120 Q 1200 1090 1600 1120 Q 2000 1150 2400 1120 Q 2700 1100 3000 1115' fill='none' stroke='url(%23riverGrad)' stroke-width='65' stroke-linecap='round'/%3E%3Cpath d='M 0 1100 Q 400 1150 800 1120 Q 1200 1090 1600 1120 Q 2000 1150 2400 1120 Q 2700 1100 3000 1115' fill='none' stroke='%2365b5e8' stroke-width='45' opacity='0.3' stroke-linecap='round'/%3E%3Cpath d='M 0 1102 Q 400 1152 800 1122 Q 1200 1092 1600 1122 Q 2000 1152 2400 1122 Q 2700 1102 3000 1117' fill='none' stroke='%23fff' stroke-width='5' opacity='0.4' stroke-linecap='round'/%3E%3Cpath d='M 1850 0 Q 1890 320 1850 640 Q 1810 960 1850 1280 Q 1890 1600 1850 1900 L 1850 2000' fill='none' stroke='url(%23riverGrad2)' stroke-width='65' stroke-linecap='round'/%3E%3Cpath d='M 1850 0 Q 1890 320 1850 640 Q 1810 960 1850 1280 Q 1890 1600 1850 1900 L 1850 2000' fill='none' stroke='%2365b5e8' stroke-width='45' opacity='0.3' stroke-linecap='round'/%3E%3Cpath d='M 1852 0 Q 1892 320 1852 640 Q 1812 960 1852 1280 Q 1892 1600 1852 1900 L 1852 2000' fill='none' stroke='%23fff' stroke-width='5' opacity='0.4' stroke-linecap='round'/%3E%3Cg filter='url(%23shadow)'%3E%3Crect x='1800' y='1090' width='100' height='50' fill='%23888' opacity='0.7'/%3E%3Crect x='500' y='1090' width='130' height='50' fill='%23888' opacity='0.7'/%3E%3Crect x='2350' y='1090' width='120' height='50' fill='%23888' opacity='0.7'/%3E%3C/g%3E%3Cpath d='M 0 450 L 550 450 L 700 550 L 1000 550' stroke='%23666' stroke-width='14' opacity='0.25' fill='none'/%3E%3Cpath d='M 950 200 L 1400 200 L 1550 320 L 1750 320' stroke='%23666' stroke-width='14' opacity='0.25' fill='none'/%3E%3Cpath d='M 2100 500 L 2600 500 L 2750 650 L 3000 650' stroke='%23666' stroke-width='14' opacity='0.25' fill='none'/%3E%3Cpath d='M 750 0 L 750 400 L 850 500 L 850 950' stroke='%23666' stroke-width='14' opacity='0.25' fill='none'/%3E%3Cpath d='M 2400 220 L 2400 900 L 2550 1050 L 2550 1400' stroke='%23666' stroke-width='14' opacity='0.25' fill='none'/%3E%3Cpath d='M 400 1350 L 850 1350 L 1000 1480 L 1350 1480' stroke='%23666' stroke-width='14' opacity='0.25' fill='none'/%3E%3Cpath d='M 2050 1600 L 2550 1600 L 2700 1750 L 3000 1750' stroke='%23666' stroke-width='14' opacity='0.25' fill='none'/%3E%3Crect x='950' y='80' width='520' height='520' fill='url(%23treeGrad)' rx='15'/%3E%3Crect x='955' y='85' width='510' height='510' fill='%2352b788' opacity='0.18' rx='12'/%3E%3Ccircle cx='1050' cy='180' r='32' fill='%2340a060' opacity='0.37'/%3E%3Ccircle cx='1140' cy='220' r='38' fill='%2340a060' opacity='0.42'/%3E%3Ccircle cx='1230' cy='195' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='1320' cy='230' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='1410' cy='205' r='34' fill='%2340a060' opacity='0.38'/%3E%3Ccircle cx='1020' cy='310' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='1110' cy='350' r='39' fill='%2340a060' opacity='0.43'/%3E%3Ccircle cx='1200' cy='325' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='1290' cy='360' r='37' fill='%2340a060' opacity='0.41'/%3E%3Ccircle cx='1380' cy='335' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='1050' cy='440' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='1140' cy='475' r='34' fill='%2340a060' opacity='0.38'/%3E%3Ccircle cx='1230' cy='455' r='38' fill='%2340a060' opacity='0.42'/%3E%3Ccircle cx='1320' cy='485' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='1410' cy='465' r='37' fill='%2340a060' opacity='0.41'/%3E%3Ccircle cx='1020' cy='550' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='1110' cy='575' r='36' fill='%2340a060' opacity='0.4'/%3E%3Crect x='120' y='1420' width='480' height='520' fill='url(%23treeGrad)' rx='15'/%3E%3Crect x='125' y='1425' width='470' height='510' fill='%2352b788' opacity='0.18' rx='12'/%3E%3Ccircle cx='210' cy='1520' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='290' cy='1560' r='38' fill='%2340a060' opacity='0.42'/%3E%3Ccircle cx='370' cy='1540' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='450' cy='1570' r='37' fill='%2340a060' opacity='0.41'/%3E%3Ccircle cx='530' cy='1550' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='190' cy='1650' r='37' fill='%2340a060' opacity='0.41'/%3E%3Ccircle cx='270' cy='1690' r='40' fill='%2340a060' opacity='0.44'/%3E%3Ccircle cx='350' cy='1670' r='38' fill='%2340a060' opacity='0.42'/%3E%3Ccircle cx='430' cy='1700' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='510' cy='1680' r='37' fill='%2340a060' opacity='0.41'/%3E%3Ccircle cx='210' cy='1780' r='38' fill='%2340a060' opacity='0.42'/%3E%3Ccircle cx='290' cy='1820' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='370' cy='1800' r='37' fill='%2340a060' opacity='0.41'/%3E%3Ccircle cx='450' cy='1830' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='530' cy='1810' r='38' fill='%2340a060' opacity='0.42'/%3E%3Ccircle cx='190' cy='1900' r='36' fill='%2340a060' opacity='0.4'/%3E%3Crect x='2100' y='180' width='580' height='480' fill='url(%23treeGrad)' rx='15'/%3E%3Crect x='2105' y='185' width='570' height='470' fill='%2352b788' opacity='0.18' rx='12'/%3E%3Ccircle cx='2200' cy='270' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='2300' cy='310' r='40' fill='%2340a060' opacity='0.44'/%3E%3Ccircle cx='2400' cy='285' r='37' fill='%2340a060' opacity='0.41'/%3E%3Ccircle cx='2500' cy='320' r='38' fill='%2340a060' opacity='0.42'/%3E%3Ccircle cx='2600' cy='295' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='2180' cy='400' r='38' fill='%2340a060' opacity='0.42'/%3E%3Ccircle cx='2280' cy='440' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='2380' cy='415' r='40' fill='%2340a060' opacity='0.44'/%3E%3Ccircle cx='2480' cy='450' r='38' fill='%2340a060' opacity='0.42'/%3E%3Ccircle cx='2580' cy='425' r='37' fill='%2340a060' opacity='0.41'/%3E%3Ccircle cx='2200' cy='530' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='2300' cy='565' r='38' fill='%2340a060' opacity='0.42'/%3E%3Ccircle cx='2400' cy='545' r='37' fill='%2340a060' opacity='0.41'/%3E%3Ccircle cx='2500' cy='575' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='2600' cy='555' r='39' fill='%2340a060' opacity='0.43'/%3E%3Crect x='2550' y='1450' width='420' height='330' fill='%2352b788' opacity='0.18' rx='12'/%3E%3Ccircle cx='2640' cy='1540' r='33' fill='%2340a060' opacity='0.37'/%3E%3Ccircle cx='2730' cy='1575' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='2820' cy='1560' r='34' fill='%2340a060' opacity='0.38'/%3E%3Ccircle cx='2910' cy='1585' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='2620' cy='1650' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='2710' cy='1685' r='33' fill='%2340a060' opacity='0.37'/%3E%3Ccircle cx='2800' cy='1665' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='2890' cy='1690' r='34' fill='%2340a060' opacity='0.38'/%3E%3Ccircle cx='2640' cy='1750' r='34' fill='%2340a060' opacity='0.38'/%3E%3Ccircle cx='2730' cy='1770' r='35' fill='%2340a060' opacity='0.39'/%3E%3Crect x='700' y='1650' width='420' height='280' fill='%2352b788' opacity='0.18' rx='12'/%3E%3Ccircle cx='780' cy='1730' r='34' fill='%2340a060' opacity='0.38'/%3E%3Ccircle cx='850' cy='1755' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='920' cy='1740' r='33' fill='%2340a060' opacity='0.37'/%3E%3Ccircle cx='990' cy='1765' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='1060' cy='1745' r='34' fill='%2340a060' opacity='0.38'/%3E%3Ccircle cx='770' cy='1830' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='840' cy='1855' r='34' fill='%2340a060' opacity='0.38'/%3E%3Ccircle cx='910' cy='1840' r='33' fill='%2340a060' opacity='0.37'/%3E%3Ccircle cx='980' cy='1865' r='36' fill='%2340a060' opacity='0.4'/%3E%3Ccircle cx='1050' cy='1845' r='35' fill='%2340a060' opacity='0.39'/%3E%3Ccircle cx='780' cy='1915' r='33' fill='%2340a060' opacity='0.37'/%3E%3Ccircle cx='850' cy='1925' r='35' fill='%2340a060' opacity='0.39'/%3E%3Cg filter='url(%23shadow)'%3E%3Crect x='150' y='280' width='140' height='200' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Cpath d='M 350 320 L 480 320 L 480 380 L 440 380 L 440 500 L 390 500 L 390 380 L 350 380 Z' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Crect x='550' y='650' width='110' height='140' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Cpath d='M 720 680 L 850 680 L 850 850 L 785 850 L 785 730 L 720 730 Z' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Crect x='1580' y='120' width='180' height='230' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Cpath d='M 200 750 L 350 750 L 350 950 L 275 950 L 275 850 L 200 850 Z' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Crect x='2700' y='780' width='200' height='260' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Crect x='2420' y='800' width='180' height='240' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Cpath d='M 950 1300 L 1100 1300 L 1100 1380 L 1025 1380 L 1025 1480 L 950 1480 Z' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Crect x='1200' y='1320' width='160' height='180' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Crect x='1450' y='1340' width='150' height='170' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Cpath d='M 2700 1280 L 2850 1280 L 2850 1450 L 2775 1450 L 2775 1350 L 2700 1350 Z' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Crect x='2450' y='1300' width='190' height='220' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Crect x='150' y='50' width='160' height='220' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Cpath d='M 380 80 L 520 80 L 520 150 L 450 150 L 450 280 L 380 280 Z' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Crect x='2150' y='1200' width='180' height='220' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Cpath d='M 1950 1230 L 2100 1230 L 2100 1420 L 2025 1420 L 2025 1320 L 1950 1320 Z' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Crect x='450' y='1220' width='170' height='200' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Cpath d='M 1550 650 L 1700 650 L 1700 850 L 1625 850 L 1625 750 L 1550 750 Z' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3Crect x='2750' y='100' width='180' height='240' fill='url(%23hatch)' stroke='%23000' stroke-width='3' opacity='0.75'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .geo-shape {
+      position: fixed;
+      opacity: 0.08;
+      animation: float 25s infinite ease-in-out;
+      z-index: 1;
+      pointer-events: none;
+      border-color: rgba(70, 70, 70, 0.3);
+    }
+
+    .geo-shape:nth-child(1) {
+      top: 12%; left: 8%; width: 140px; height: 140px; border: 2px dashed;
+    }
+
+    .geo-shape:nth-child(2) {
+      top: 55%; right: 12%; width: 160px; height: 160px; border: 3px solid; animation-delay: 8s;
+    }
+
+    .geo-shape:nth-child(3) {
+      bottom: 18%; left: 18%; width: 0; height: 0;
+      border-left: 40px solid transparent; border-right: 40px solid transparent;
+      border-bottom: 80px solid rgba(70,70,70,0.08); animation-delay: 16s;
+    }
+
+    .geo-shape:nth-child(4) {
+      top: 32%; right: 28%; width: 180px; height: 180px;
+      border: 2px dashed; transform: rotate(45deg); animation-delay: 24s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.08; }
+      25% { transform: translateY(-15px) rotate(5deg); opacity: 0.12; }
+      50% { transform: translateY(-25px) rotate(0deg); opacity: 0.1; }
+      75% { transform: translateY(-15px) rotate(-5deg); opacity: 0.12; }
+    }
+
+    .content-wrapper { position: relative; z-index: 10; }
+    .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); }
+    .glass-strong { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.35); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); }
+    .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2); transition: all 0.3s ease; }
+    .glass-card:hover { background: rgba(255, 255, 255, 1); transform: translateY(-10px); box-shadow: 0 20px 50px 0 rgba(31, 38, 135, 0.35); }
+    .nav-link { color: #d4a373; font-weight: 700; transition: all 0.3s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+    .nav-link:hover { color: #b07d4f; transform: scale(1.08); text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+    .logo-text { color: #d4a373; font-weight: 800; text-shadow: 2px 2px 6px rgba(0,0,0,0.5); }
+    .text-shadow { text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); }
+    .text-shadow-strong { text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9); }
+    .text-contrast { color: #1a1a1a; text-shadow: 1px 1px 3px rgba(255,255,255,0.8), 0 0 10px rgba(255,255,255,0.5); font-weight: 600; }
+    .text-contrast-strong { color: #0d0d0d; text-shadow: 2px 2px 5px rgba(255,255,255,0.9), 0 0 15px rgba(255,255,255,0.6); font-weight: 700; }
+    .hero-slide { opacity: 0; transition: opacity .5s ease-in-out; }
+    .hero-slide.active { opacity: 1; }
+
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      padding: 8px;
+    }
+
+    .hamburger span {
+      width: 28px;
+      height: 3px;
+      background: #d4a373;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+      box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      border-bottom: 2px solid rgba(212, 163, 115, 0.3);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      z-index: 40;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-in-out;
+    }
+
+    .mobile-menu.active {
+      display: block;
+      max-height: 500px;
+    }
+
+    .mobile-menu ul {
+      list-style: none;
+      padding: 20px 0;
+    }
+
+    .mobile-menu ul li {
+      border-bottom: 1px solid rgba(212, 163, 115, 0.15);
+    }
+
+    .mobile-menu ul li:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-menu ul li a {
+      display: block;
+      padding: 16px 24px;
+      color: #d4a373;
+      font-weight: 700;
+      font-size: 18px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu ul li a:hover {
+      background: rgba(212, 163, 115, 0.1);
+      padding-left: 32px;
+      color: #b07d4f;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+
+      .desktop-menu {
+        display: none !important;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-menu {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="text-[#2c2c2c] antialiased">
+  <div class="geo-shape"></div>
+  <div class="geo-shape"></div>
+  <div class="geo-shape"></div>
+  <div class="geo-shape"></div>
+
+  <div class="content-wrapper">
+    <header class="glass-strong fixed top-0 inset-x-0 z-50 shadow-lg">
+      <nav class="max-w-[1200px] mx-auto px-4 py-4 flex items-center justify-between gap-3">
+        <div class="logo-text text-lg md:text-xl">NAXAZI.COM</div>
+
+        <div class="flex items-center gap-3 order-2">
+          <a href="tel:+995591067306" class="w-10 h-10 rounded-full flex items-center justify-center glass hover:glass-strong transition transform hover:scale-110" title="დაგვირეკეთ">
+            <svg viewBox="0 0 24 24" class="w-5 h-5 fill-white drop-shadow-lg">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+          </a>
+          <a href="https://wa.me/995591067306" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center glass hover:glass-strong transition transform hover:scale-110" title="WhatsApp">
+            <svg viewBox="0 0 24 24" class="w-5 h-5 fill-white drop-shadow-lg">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/>
+            </svg>
+          </a>
+          <a href="https://www.facebook.com/azomvitinaxazebii/" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center glass hover:glass-strong transition transform hover:scale-110" title="Facebook">
+            <svg viewBox="0 0 24 24" class="w-5 h-5 fill-white drop-shadow-lg">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </a>
+
+          <button class="hamburger" id="hamburgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+
+        <ul class="desktop-menu flex list-none gap-4 flex-wrap text-sm md:text-base md:gap-6">
+          <li><a href="#home" class="nav-link px-2">მთავარი</a></li>
+          <li><a href="2_gverdi.html" class="nav-link px-2">ყიდვა/გაყიდვა</a></li>
+          <li><a href="#services" class="nav-link px-2">სერვისები</a></li>
+          <li><a href="#about" class="nav-link px-2">ჩვენ შესახებ</a></li>
+          <li><a href="#contact-info" class="nav-link px-2">კონტაქტი</a></li>
+        </ul>
+      </nav>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <ul>
+          <li><a href="#home" class="mobile-nav-link">მთავარი</a></li>
+          <li><a href="2_gverdi.html" class="mobile-nav-link">ყიდვა/გაყიდვა</a></li>
+          <li><a href="#services" class="mobile-nav-link">სერვისები</a></li>
+          <li><a href="#about" class="mobile-nav-link">ჩვენ შესახებ</a></li>
+          <li><a href="#contact-info" class="mobile-nav-link">კონტაქტი</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <section id="home" class="relative min-h-screen flex items-center justify-center text-center text-white px-5 pt-28 overflow-hidden">
+      <div class="absolute inset-0 bg-black/50 z-[-1]"></div>
+
+      <div class="absolute inset-0 z-[-2]">
+        <div class="hero-slide active absolute inset-0 bg-cover bg-center" style="background-image:url('https://i.ibb.co/ymGst45X/image3.jpg');"></div>
+        <div class="hero-slide absolute inset-0 bg-cover bg-center" style="background-image:url('https://i.ibb.co/S4yB81FT/image5.jpg');"></div>
+        <div class="hero-slide absolute inset-0 bg-cover bg-center" style="background-image:url('https://i.ibb.co/7xRcpmLD/image1.png');"></div>
+        <div class="hero-slide absolute inset-0 bg-cover bg-center" style="background-image:url('https://i.ibb.co/MvhLmwJ/image4.jpg');"></div>
+        <div class="hero-slide absolute inset-0 bg-cover bg-center" style="background-image:url('https://i.ibb.co/Psgv85fp/image2.jpg');"></div>
+      </div>
+
+<style>
+  .custom-font {
+    font-family: 'Georgia', 'Times New Roman', serif;
+  }
+</style>
+
+<div class="relative z-10 max-w-3xl rounded-3xl p-8 md:p-12 shadow-[0_12px_40px_0_rgba(0,0,0,0.5)]" style="background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1);">
+  <h1 class="custom-font text-3xl md:text-5xl font-semibold text-white text-shadow-strong whitespace-nowrap">ყველაფერი ერთ სივრცეში</h1>
+  
+  <p class="custom-font mt-4 md:mt-6 text-base md:text-lg text-white/95 text-shadow leading-relaxed whitespace-nowrap">
+    გეოდეზია • გეოლოგია • არქიტექტურა • უძრავი ქონება
+  </p>
+  
+  <p class="custom-font mt-2 text-base md:text-lg text-white/95 text-shadow leading-relaxed">
+    სიზუსტე, რომელსაც ენდობით. ხარისხი, რომელსაც აფასებთ. ინოვაცია, რომელიც აშენებს მომავალს.
+  </p>
+  
+  <a href="tel:+995591067306" class="custom-font inline-block mt-8 bg-gradient-to-r from-[#d4a373] to-[#b07d4f] text-white font-semibold rounded-full px-8 py-4 shadow-[0_4px_15px_rgba(212,163,115,0.4)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(212,163,115,0.6)] transition-all duration-300">
+    დაგვიკავშირდით
+  </a>
+</div>
+
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 md:gap-3 z-10">
+        <button class="slider-dot w-3 h-3 rounded-full bg-white/50 data-[active=true]:bg-[#d4a373] data-[active=true]:scale-110 transition" data-slide="0" data-active="true"></button>
+        <button class="slider-dot w-3 h-3 rounded-full bg-white/50 transition" data-slide="1"></button>
+        <button class="slider-dot w-3 h-3 rounded-full bg-white/50 transition" data-slide="2"></button>
+        <button class="slider-dot w-3 h-3 rounded-full bg-white/50 transition" data-slide="3"></button>
+        <button class="slider-dot w-3 h-3 rounded-full bg-white/50 transition" data-slide="4"></button>
+      </div>
+    </section>
+    
+    <!-- Services - 9 ქარდი -->
+    <section id="services" class="max-w-[1400px] mx-auto px-5 py-16 md:py-24">
+      <h2 class="relative text-center text-3xl md:text-4xl font-bold text-contrast-strong mb-12 md:mb-20">
+        ჩვენი სერვისები
+        <span class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-20 h-1 bg-[#d4a373] shadow-md"></span>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        <!-- Card 1 -->
+        <div class="glass-card rounded-2xl overflow-hidden group">
+          <div class="relative overflow-hidden" style="aspect-ratio: 210/297;">
+            <img src="./Capture.JPG" alt="შიდა აზომვითი ნახაზი" class="w-full h-full object-contain bg-white transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#1b4332]/60 to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <div class="w-14 h-14 rounded-full bg-[#d4a373] flex items-center justify-center mb-3">
+                <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 md:p-8">
+            <h3 class="text-xl md:text-2xl font-bold text-[#0d3d20] mb-3">შიდა აზომვითინახაზი</h3>
+            <p class="text-gray-800 leading-relaxed text-base font-medium">
+              კომერციული ფართის, ბინების, სხვენის, სარდაფების, ავტოფარეხების
+              მერიისთვის და საჯარო რეესტრისთვის საბუთების მომზადება.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="glass-card rounded-2xl overflow-hidden group">
+          <div class="relative overflow-hidden" style="aspect-ratio: 210/297;">
+            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80" alt="ბინების გაყოფა/გაერთიანება" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#1b4332]/60 to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <div class="w-14 h-14 rounded-full bg-[#d4a373] flex items-center justify-center mb-3">
+                <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14H5v-6h6v6zm0-8H5V5h6v4zm8 8h-6v-6h6v6zm0-8h-6V5h6v4z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 md:p-8">
+            <h3 class="text-xl md:text-2xl font-bold text-[#0d3d20] mb-3">ბინების გაყოფა/გაერთიანება</h3>
+            <p class="text-gray-800 leading-relaxed text-base font-medium">
+              საერთო საკუთრებაში არსებული ფართების გამიჯვნა, გაერთიანება და სრული დოკუმენტაციის მომზადება.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="glass-card rounded-2xl overflow-hidden group">
+          <div class="relative overflow-hidden" style="aspect-ratio: 210/297;">
+            <img src="https://images.unsplash.com/photo-1503387837-b154d5074bd2?auto=format&fit=crop&w=800&q=80" alt="საევაკუაციო გეგმის მომზადება" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#1b4332]/60 to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <div class="w-14 h-14 rounded-full bg-[#d4a373] flex items-center justify-center mb-3">
+                <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+                  <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 13.54L7.4 12l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.64 5.66z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 md:p-8">
+            <h3 class="text-xl md:text-2xl font-bold text-[#0d3d20] mb-3">საევაკუაციო გეგმის მომზადება</h3>
+            <p class="text-gray-800 leading-relaxed text-base font-medium">
+              უსაფრთხოების სტანდარტების შესაბამისი გეგმების შექმნა. ხანძარსაწინააღმდებო და ევაკუაციის გეგმები.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="glass-card rounded-2xl overflow-hidden group">
+          <div class="relative overflow-hidden" style="aspect-ratio: 210/297;">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="საკადასტრო აზომვითი ნახაზი" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#1b4332]/60 to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <div class="w-14 h-14 rounded-full bg-[#d4a373] flex items-center justify-center mb-3">
+                <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 md:p-8">
+            <h3 class="text-xl md:text-2xl font-bold text-[#0d3d20] mb-3">საკადასტრო აზომვითი ნახაზი</h3>
+            <p class="text-gray-800 leading-relaxed text-base font-medium">
+              მიწის პირველადი აზამვა, რეგისტრირებული ნაკვეთის ცვლილება, გამიჯვნა და გაერთიანება. სრული დოკუმენტაციის მომზადება.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="glass-card rounded-2xl overflow-hidden group">
+          <div class="relative overflow-hidden" style="aspect-ratio: 210/297;">
+            <img src="https://i.ibb.co/mrkjxNjt/1.jpg" alt="საზღვრების დადგენა" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#1b4332]/60 to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <div class="w-14 h-14 rounded-full bg-[#d4a373] flex items-center justify-center mb-3">
+                <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 md:p-8">
+            <h3 class="text-xl md:text-2xl font-bold text-[#0d3d20] mb-3">საზღვრების დადგენა</h3>
+            <p class="text-gray-800 leading-relaxed text-base font-medium">
+              რეგისტრირებული ნაკვეთის საზღვრების ზუსტი დადგენა თანამედროვე ტექნიკის გამოყენებით.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="glass-card rounded-2xl overflow-hidden group">
+          <div class="relative overflow-hidden" style="aspect-ratio: 210/297;">
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="ტოპოგრაფიული რუკის მომზადება" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#1b4332]/60 to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <div class="w-14 h-14 rounded-full bg-[#d4a373] flex items-center justify-center mb-3">
+                <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+                  <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 md:p-8">
+            <h3 class="text-xl md:text-2xl font-bold text-[#0d3d20] mb-3">ტოპოგრაფიული რუკის მომზადება</h3>
+            <p class="text-gray-800 leading-relaxed text-base font-medium">
+              სიზუსტით შესრულებული ტოპოგრაფიული გეგმები სამშენებლო და საპროექტო სამუშაოებისთვის.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 7 - გეოლოგია -->
+        <div class="glass-card rounded-2xl overflow-hidden group">
+          <div class="relative overflow-hidden" style="aspect-ratio: 210/297;">
+            <img src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=800&q=80" alt="გეოლოგია" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#1b4332]/60 to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <div class="w-14 h-14 rounded-full bg-[#d4a373] flex items-center justify-center mb-3">
+                <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 md:p-8">
+            <h3 class="text-xl md:text-2xl font-bold text-[#0d3d20] mb-3">გეოლოგია</h3>
+            <p class="text-gray-800 leading-relaxed text-base font-medium">
+              ნიადაგის გეოლოგიური კვლევები, გრუნტის ანალიზი და საინჟინრო-გეოლოგიური დასკვნები სამშენებლო პროექტებისთვის.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 8 - არქიტექტურა -->
+        <div class="glass-card rounded-2xl overflow-hidden group">
+          <div class="relative overflow-hidden" style="aspect-ratio: 210/297;">
+            <img src="https://images.unsplash.com/photo-1503387837-b154d5074bd2?auto=format&fit=crop&w=800&q=80" alt="არქიტექტურა" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#1b4332]/60 to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <div class="w-14 h-14 rounded-full bg-[#d4a373] flex items-center justify-center mb-3">
+                <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+                  <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 md:p-8">
+            <h3 class="text-xl md:text-2xl font-bold text-[#0d3d20] mb-3">არქიტექტურა</h3>
+            <p class="text-gray-800 leading-relaxed text-base font-medium">
+              არქიტექტურული პროექტირება, 3D ვიზუალიზაცია და სრული არქიტექტურული დოკუმენტაცია თქვენი პროექტისთვის.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 9 - საბუთების მოგვარება -->
+        <div class="glass-card rounded-2xl overflow-hidden group">
+          <div class="relative overflow-hidden" style="aspect-ratio: 210/297;">
+            <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=800&q=80" alt="საბუთების მოგვარება" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#1b4332]/60 to-transparent pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <div class="w-14 h-14 rounded-full bg-[#d4a373] flex items-center justify-center mb-3">
+                <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+                  <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="p-6 md:p-8">
+            <h3 class="text-xl md:text-2xl font-bold text-[#0d3d20] mb-3">საბუთების მოგვარება</h3>
+            <p class="text-gray-800 leading-relaxed text-base font-medium">
+              სრული დოკუმენტაციის მომზადება და მოგვარება საჯარო რეესტრში, მერიაში და სხვა სახელმწიფო უწყებებში.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Real Estate Section -->
+<section class="max-w-[1400px] mx-auto px-5 py-16 md:py-20">
+  <h2 class="relative text-center text-2xl md:text-4xl font-bold text-contrast-strong mb-12 md:mb-16">
+    უძრავი ქონების ყიდვა-გაყიდვა
+    <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-1 bg-[#d4a373] shadow-md"></span>
+  </h2>
+
+  <div class="glass-card overflow-hidden max-w-6xl mx-auto cursor-pointer group"
+       onclick="window.location.href='2_gverdi.html'">
+    
+    <div class="grid md:grid-cols-2 gap-0">
+      
+      <!-- Left Side - Image -->
+      <div class="relative h-[400px] md:h-[600px] overflow-hidden">
+        <img src="https://i.ibb.co/m5XRkZ5K/agriculture-3195381.jpg" 
+             alt="უძრავი ქონება" 
+             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+        
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        
+        <!-- Badge -->
+        <div class="absolute top-6 left-6">
+          <span class="bg-white/90 backdrop-blur-sm text-green-600 text-sm font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
+            <svg viewBox="0 0 24 24" class="w-4 h-4 fill-green-600">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            ვერიფიცირებული
+          </span>
+        </div>
+      </div>
+      
+      <!-- Right Side - Content -->
+      <div class="p-8 md:p-12 flex flex-col justify-center bg-gradient-to-br from-white to-gray-50 relative">
+        
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 right-0 w-40 h-40 bg-[#d4a373]/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-32 h-32 bg-[#0d3d20]/5 rounded-full blur-2xl"></div>
+        
+        <div class="relative z-10">
+          
+          <!-- Title -->
+          <h3 class="text-3xl md:text-4xl font-bold mb-5 text-[#0d3d20] leading-tight">
+            იპოვე შენი მიწა
+          </h3>
+
+          <!-- Description -->
+          <p class="text-lg text-gray-700 leading-relaxed mb-8 font-medium">
+            საუკეთესო ლოკაციები ერთ სივრცეში. სრული  
+იურიდიული მხარდაჭერა ყიდვიდან რეგისტრაციამდე. 
+შენი იდეალური ინვესტიცია !
+          </p>
+
+          <!-- Features -->
+          <div class="space-y-4 mb-8">
+            <div class="flex items-center gap-4 group/item">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-100 to-green-50 flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform shadow-sm">
+                <svg viewBox="0 0 24 24" class="w-6 h-6 fill-green-600">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+              </div>
+              <span class="text-gray-800 font-semibold text-lg">იურიდიული მხარდაჭერა</span>
+            </div>
+            
+            <div class="flex items-center gap-4 group/item">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform shadow-sm">
+                <svg viewBox="0 0 24 24" class="w-6 h-6 fill-blue-600">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+                </svg>
+              </div>
+              <span class="text-gray-800 font-semibold text-lg">საუკეთესო ლოკაციები</span>
+            </div>
+            
+            <div class="flex items-center gap-4 group/item">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-100 to-yellow-50 flex items-center justify-center flex-shrink-0 group-hover/item:scale-110 transition-transform shadow-sm">
+                <svg viewBox="0 0 24 24" class="w-6 h-6 fill-yellow-600">
+                  <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                </svg>
+              </div>
+              <span class="text-gray-800 font-semibold text-lg">მომგებიანი ფასები</span>
+            </div>
+          </div>
+        
+          <!-- CTA Button -->
+          <button class="w-full bg-gradient-to-r from-[#d4a373] to-[#b07d4f] text-white font-bold rounded-2xl px-8 py-5 text-lg shadow-[0_8px_25px_rgba(212,163,115,0.3)] hover:shadow-[0_12px_35px_rgba(212,163,115,0.4)] hover:-translate-y-1 transition-all flex items-center gap-3 justify-center group/btn">
+            <span>იხილეთ ყველა შეთავაზება</span>
+            <svg viewBox="0 0 24 24" class="w-6 h-6 fill-white group-hover/btn:translate-x-2 transition-transform">
+              <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+    <!-- CTA -->
+    <section class="relative overflow-hidden py-16 px-5">
+      <div class="relative max-w-3xl mx-auto bg-white rounded-2xl px-6 py-10 md:px-10 shadow-xl">
+        <h2 class="text-[#d4a373] text-2xl md:text-3xl font-semibold mb-3">მზად ხართ შემდეგი ნაბიჯისთვის?</h2>
+        <p class="text-[#2c2c2c] mb-8 leading-relaxed font-semibold">
+          ჩვენ აქ ვართ, რომ თქვენი იდეა რეალობად ვაქციოთ. პროფესიონალიზმი, სიზუსტე და ყურადღება თითოეულ დეტალზე.
+        </p>
+        <a href="tel:+995591067306" class="inline-flex items-center gap-2 bg-gradient-to-r from-[#d4a373] to-[#b07d4f] text-white font-semibold rounded-full px-10 py-4 shadow-[0_6px_20px_rgba(212,163,115,0.4)] hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(212,163,115,0.5)] transition">
+          <svg viewBox="0 0 24 24" class="w-5 h-5 fill-white">
+            <path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+          </svg>
+          დარეკეთ ახლავე
+        </a>
+      </div>
+    </section>
+
+<!-- About -->
+<section id="about" class="max-w-[1200px] mx-auto px-5 py-16 md:py-20">
+  <div class="glass-card rounded-2xl p-8 md:p-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+      <!-- Text Content -->
+      <div>
+        <h2 class="text-[#0d3d20] text-2xl md:text-3xl font-semibold mb-6">ჩვენ შესახებ</h2>
+        
+        <p class="text-gray-800 mb-4 leading-relaxed font-medium">
+          პროფესიონალური პარტნიორი გეოდეზიაში, არქიტექტურასა და უძრავ ქონებაში.
+        </p>
+        
+        <p class="text-gray-800 mb-4 leading-relaxed font-medium">
+          სრული სპექტრის სერვისები თქვენი პროექტის წარმატებისთვის: მიწის ნაკვეთების შერჩევა და შეძენა, გეოდეზიური გაზომვები, არქიტექტურული დაგეგმვა და თანამედროვე დიზაინი, საპროექტო დოკუმენტაციის მომზადება და ქონების რეალიზაცია.
+        </p>
+        
+        <p class="text-gray-800 leading-relaxed font-semibold text-lg">
+          სიზუსტე, სანდოობა, პროფესიონალიზმი.
+        </p>
+      </div>
+      
+      <!-- Image -->
+      <div>
+        <img src="https://i.ibb.co/8LqmnTg5/apartment-plan-6257405.jpg" alt="Architecture" class="w-full rounded-xl shadow-[0_8px_25px_rgba(0,0,0,0.2)]"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Contact info -->
+    <section id="contact-info" class="py-16 px-5">
+      <div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="text-center bg-white rounded-xl p-8 shadow-lg">
+          <svg viewBox="0 0 24 24" class="w-8 h-8 fill-[#d4a373] mx-auto mb-3">
+            <path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+          </svg>
+          <h3 class="text-[#d4a373] font-semibold mb-1">ტელეფონი</h3>
+          <p class="text-[#1a1a1a] font-bold text-lg">+995 591 06 73 06</p>
+            <p class="text-[#1a1a1a] font-bold text-lg">+995 599 58 93 65</p>
+          <p class="text-[#2c2c2c] text-sm font-medium">სამუშაო საათები: 9:00-18:00</p>
+        </div>
+
+        <div class="text-center bg-white rounded-xl p-8 shadow-lg">
+          <svg viewBox="0 0 24 24" class="w-8 h-8 fill-[#d4a373] mx-auto mb-3">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+          <h3 class="text-[#d4a373] font-semibold mb-1">ელ-ფოსტა</h3>
+          <p class="text-[#1a1a1a] font-bold text-lg">sabaurisaba2@gmail.com</p>
+        </div>
+
+        <div class="text-center bg-white rounded-xl p-8 shadow-lg lg:col-auto">
+          <svg viewBox="0 0 24 24" class="w-8 h-8 fill-[#d4a373] mx-auto mb-3">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+          </svg>
+          <h3 class="text-[#d4a373] font-semibold mb-1">მისამართი</h3>
+          <p class="text-[#1a1a1a] font-bold text-lg">თბილისი, საქართველო</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map -->
+<section class="max-w-[1200px] mx-auto px-5 py-16 md:py-20">
+  <h2 class="relative text-2xl md:text-3xl font-semibold text-contrast-strong mb-12 text-center">
+    ჩვენი მდებარეობა
+    <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-16 h-[3px] bg-[#d4a373] shadow-md"></span>
+  </h2>
+  
+  <div class="glass-card rounded-2xl p-8 md:p-10 max-w-4xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      
+      <!-- Left Side - Info -->
+      <div class="space-y-6">
+        <div class="flex items-start gap-4">
+          <div class="bg-gradient-to-br from-[#4285F4] to-[#34A853] p-3 rounded-xl shadow-lg flex-shrink-0">
+            <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">ოფისის მისამართი</h3>
+            <p class="text-gray-600 leading-relaxed">თბილისი, საქართველო</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-4">
+          <div class="bg-gradient-to-br from-[#d4a373] to-[#b07d4f] p-3 rounded-xl shadow-lg flex-shrink-0">
+            <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">საათები</h3>
+            <p class="text-gray-600">ორშ-პარ: 10:00 - 18:00</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-4">
+          <div class="bg-gradient-to-br from-[#0d3d20] to-[#1a5a33] p-3 rounded-xl shadow-lg flex-shrink-0">
+            <svg viewBox="0 0 24 24" class="w-7 h-7 fill-white">
+              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">კონტაქტი</h3>
+            <a href="tel:+995591067306" class="text-[#d4a373] hover:text-[#b07d4f] font-medium transition-colors">
+              +995 591 067 306
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Side - Map Button -->
+      <div 
+        class="relative group cursor-pointer"
+        onclick="window.open('https://www.google.com/maps/place/%E1%83%90%E1%83%96%E1%83%9D%E1%83%9B%E1%83%95%E1%83%98%E1%83%97%E1%83%98+%E1%83%9C%E1%83%90%E1%83%AE%E1%83%90%E1%83%96%E1%83%94%E1%83%91%E1%83%98/@41.7263086,44.734667,987m/data=!3m2!1e3!4b1!4m6!3m5!1s0x404473b4c19aebad:0xfed41f73c47a594a!8m2!3d41.7263086!4d44.734667!16s%2Fg%2F11xvdwzv99!5m1!1e1?hl=ka&entry=ttu&g_ep=EgoyMDI1MDkwMy4wIKXMDSoASAFQAw%3D%3D', '_blank')"
+      >
+        <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 border-2 border-gray-200 shadow-lg group-hover:shadow-2xl group-hover:border-[#4285F4] transition-all duration-300 group-hover:-translate-y-1">
+          
+          <!-- Google Logo -->
+          <div class="flex items-center justify-center gap-2 mb-6">
+            <span class="text-[#4285F4] text-4xl font-bold">G</span>
+            <span class="text-[#EA4335] text-4xl font-bold">o</span>
+            <span class="text-[#FBBC04] text-4xl font-bold">o</span>
+            <span class="text-[#4285F4] text-4xl font-bold">g</span>
+            <span class="text-[#34A853] text-4xl font-bold">l</span>
+            <span class="text-[#EA4335] text-4xl font-bold">e</span>
+          </div>
+          
+          <!-- Map Icon -->
+          <div class="relative w-24 h-24 mx-auto mb-6">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#4285F4] to-[#34A853] rounded-full opacity-20 group-hover:scale-110 transition-transform"></div>
+            <div class="relative w-full h-full flex items-center justify-center">
+              <svg viewBox="0 0 24 24" class="w-12 h-12 fill-[#4285F4] group-hover:scale-110 transition-transform">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+              </svg>
+            </div>
+          </div>
+          
+          <!-- Text -->
+          <div class="text-center">
+            <h3 class="text-xl font-semibold text-gray-800 mb-2 group-hover:text-[#4285F4] transition-colors">
+              ნახეთ რუქაზე
+            </h3>
+            <p class="text-gray-600 text-sm">
+              დააჭირეთ Google Maps-ის გასახსნელად
+            </p>
+          </div>
+          
+          <!-- Arrow Icon -->
+          <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+            <svg class="w-6 h-6 text-[#4285F4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="relative py-20 px-5">
+  <div class="relative z-10 max-w-xl mx-auto bg-white rounded-2xl p-8 md:p-10 shadow-xl">
+    <h2 class="text-center text-[#d4a373] text-2xl md:text-3xl font-semibold mb-8">დაგვიკავშირდით</h2>
+    
+    <form id="whatsappForm" class="space-y-4">
+      <div>
+        <input type="text" id="name" required placeholder="სახელი და გვარი"
+               class="w-full rounded-lg px-4 py-3 text-gray-900 font-medium outline-none focus:ring-4 focus:ring-[#d4a373]/30 border border-gray-300"/>
+      </div>
+      <div>
+        <input type="email" id="email" required placeholder="ელ-ფოსტა"
+               class="w-full rounded-lg px-4 py-3 text-gray-900 font-medium outline-none focus:ring-4 focus:ring-[#d4a373]/30 border border-gray-300"/>
+      </div>
+      <div>
+        <input type="tel" id="phone" required placeholder="ტელეფონი"
+               class="w-full rounded-lg px-4 py-3 text-gray-900 font-medium outline-none focus:ring-4 focus:ring-[#d4a373]/30 border border-gray-300"/>
+      </div>
+      <div>
+        <textarea rows="4" id="message" required placeholder="გამოთქვით თქვენი პროექტი..."
+                  class="w-full rounded-lg px-4 py-3 text-gray-900 font-medium outline-none focus:ring-4 focus:ring-[#d4a373]/30 border border-gray-300"></textarea>
+      </div>
+      <button type="submit"
+              class="w-full bg-gradient-to-r from-[#d4a373] to-[#b07d4f] text-white font-bold rounded-full py-3 shadow-[0_6px_20px_rgba(212,163,115,0.4)] hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(212,163,115,0.5)] transition">
+        WhatsApp-ით გაგზავნა
+      </button>
+    </form>
+  </div>
+</section>
+
+<script>
+document.getElementById('whatsappForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // აიღე ველების მნიშვნელობები
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+  const message = document.getElementById('message').value;
+  
+  // შექმენი WhatsApp შეტყობინება
+  const whatsappMessage = `🆕 ახალი შეკვეთა საიტიდან
+
+👤 სახელი: ${name}
+📧 Email: ${email}
+📱 ტელეფონი: ${phone}
+
+💬 შეტყობინება:
+${message}`;
+  
+  // შენი WhatsApp ნომერი
+  const whatsappNumber = '995591067306';
+  
+  // შექმენი WhatsApp URL
+  const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  
+  // გახსენი WhatsApp
+  window.open(whatsappURL, '_blank');
+  
+  // ფორმის გასუფთავება
+  this.reset();
+});
+</script>
+
+    <!-- Footer -->
+    <footer class="glass-strong text-white text-center py-8 px-5">
+      <p class="text-shadow font-medium">&copy; 2025 აზომვითი ნახაზები. ყველა უფლება დაცულია.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Hero Slider
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slider-dot');
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+      slides.forEach((s, i) => {
+        s.classList.toggle('active', i === index);
+      });
+      dots.forEach((d, i) => {
+        if (i === index) {
+          d.setAttribute('data-active', 'true');
+          d.classList.add('scale-110','bg-[#d4a373]');
+        } else {
+          d.removeAttribute('data-active');
+          d.classList.remove('scale-110','bg-[#d4a373]');
+          d.classList.add('bg-white/50');
+        }
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      showSlide(currentSlide);
+    }
+
+    setInterval(nextSlide, 5000);
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        currentSlide = index;
+        showSlide(currentSlide);
+      });
+    });
+
+    // Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        
+        // Close mobile menu
+        const mobileMenu = document.getElementById('mobileMenu');
+        const hamburger = document.getElementById('hamburgerBtn');
+        if (mobileMenu.classList.contains('active')) {
+          mobileMenu.classList.remove('active');
+          hamburger.classList.remove('active');
+        }
+        
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Hamburger Menu
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburgerBtn.addEventListener('click', () => {
+      hamburgerBtn.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!hamburgerBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+        hamburgerBtn.classList.remove('active');
+        mobileMenu.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
